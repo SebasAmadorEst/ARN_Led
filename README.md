@@ -176,9 +176,9 @@ Esta funcionalidad se integró como la opción 5 del menú principal:
 * Bomba de enfriamiento → se activa si Temperatura > 30
   * Inserta el valor como nodo ROJO
 * Lámpara de crecimiento → se activa si Iluminación < 15
-  * Inserta el valor como nodo NEGRO (con advertencia verde)
+  * Inserta el valor como nodo NEGRO
 
 8.3. Lógica realista y profesional
 * Si ambos umbrales se superan → ambos actuadores se activan
 * Si solo uno → solo ese actuador
-* Si ninguno → NO se inserta nada → se muestra:
+* Si ninguno → NO se inserta nada → se muestra: [OK] Todo en rango normal. Sin acción.
