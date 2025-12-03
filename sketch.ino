@@ -406,7 +406,7 @@ void loop() {
             } while (colorInt != 1 && colorInt != 2);
 
             Color colorElegido = (colorInt == 1) ? ROJO : NEGRO;
-
+            arbol.insertar(valorEntero, colorElegido);
             arbol.mostrarInOrden();
 
         } else if (opcion == 2) {
@@ -449,6 +449,7 @@ void loop() {
             bool esIluminacion = (tipoSensor == 2);
 
             arbol.insertarDesdeSensor(valorEntero, esIluminacion);
+            arbol.insertar(valorEntero, tipoSensor);
             arbol.mostrarInOrden();
 
         } else if (opcion == 3) {
