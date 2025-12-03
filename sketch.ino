@@ -386,7 +386,7 @@ void loop() {
 
             int colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
             while (colorInt != 1 && colorInt != 2) {
-                Serial.println(F("ERROR: Solo 0 o 1"));
+                Serial.println(F("ERROR: Solo 1 o 2"));
                 colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
             }
             arbol.insertar(valorEntero, colorInt == 2 ? NEGRO : ROJO);
