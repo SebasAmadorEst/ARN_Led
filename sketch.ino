@@ -476,24 +476,33 @@ void loop() {
         }
     }
 
-    // Modo inserción aleatoria simple (opción 4)
-    if (insercionAutomaticaActiva && opcionActual == 4) {
-        if (Serial.available()) {
-            char c = Serial.read();
-            if (c == 's' || c == 'S') {
-                Serial.println("\nInserción aleatoria detenida.");
-                insercionAutomaticaActiva = false;
-                opcionActual = 0;
-                return;
-            }
+// Modo inserción aleatoria simple (opción 4)
+if (insercionAutomaticaActiva && opcionActual == 4) {
+    if (Serial.available()) {
+        char c = Serial.read();
+        if (c == 's' || c == 'S') {
+            Serial.println("\nInserción aleatoria detenida.");
+            insercionAutomaticaActiva = false;
+            opcionActual = 0;
+            return;
         }
-        int valor = random(36, 71);
-        Serial.print("\n[Auto simple] Insertando: ");
+    }
+
+    int valor = random(0, 71); 
+    
+    if (valor > 35) {
+        Serial.print("\nInsertando: ");
         Serial.println(valor);
         arbol.insertar(valor, ROJO);
         arbol.mostrarInOrden();
-        delay(1200);
+    } else {
+        Serial.print("\nValor Ignorado (≤35): ");
+        Serial.println(valor);
+        // Opcional: puedes omitir este mensaje si no quieres ruido
     }
+
+    delay(1200);
+}
 
     // Modo simulación IoT (opción 5)
     if (insercionAutomaticaActiva && opcionActual == 5) {
@@ -510,7 +519,7 @@ void loop() {
         int temp = random(0, 41);
         int ilum = random(0, 51);
 
-        Serial.print(F("\n[IoT] Temp: "));
+        Serial.print(F("\nTemp: "));
         Serial.print(temp);
         Serial.print(F(" | Ilum: "));
         Serial.print(ilum);
@@ -533,7 +542,7 @@ void loop() {
 
         // Solo insertamos si algún actuador se activó
         if (!bombaActivada && !lamparaActivada) {
-            Serial.println(F("   [OK] Todo en rango normal. Sin acción."));
+            Serial.println(F("Todo en rango normal. Sin acción."));
         }
 
         arbol.mostrarInOrden();
