@@ -449,7 +449,6 @@ void loop() {
             bool esIluminacion = (tipoSensor == 2);
 
             arbol.insertarDesdeSensor(valorEntero, esIluminacion);
-            arbol.insertar(valorEntero, tipoSensor);
             arbol.mostrarInOrden();
 
         } else if (opcion == 3) {
