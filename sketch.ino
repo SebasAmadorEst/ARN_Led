@@ -253,13 +253,19 @@ private:
         inOrden(nodo->der);
     }
 
+private:
+    void eliminarArbol(Nodo* nodo) {
+        if (nodo != nullptr) {
+            eliminarArbol(nodo->izq);
+            eliminarArbol(nodo->der);
+            delete nodo;
+        }
+    }
+
 public:
     void borrarTodo() {
-        while (raiz) {
-            Nodo* temp = raiz;
-            raiz = raiz->izq ? raiz->izq : raiz->der;
-            delete temp;
-        }
+        eliminarArbol(raiz);
+        raiz = nullptr;  
     }
 };
 
