@@ -329,20 +329,6 @@ float leerNumeroReal(const char* mensaje) {
     }
 }
 
-int leerEnteroPositivo(const char* mensaje) {
-    while (true) {
-        Serial.print(mensaje);
-        while (Serial.available() == 0) delay(10);
-        int valor = Serial.parseInt();
-        while (Serial.available()) Serial.read();
-        if (valor >= 0) {
-            Serial.println(valor);
-            return valor;
-        }
-        Serial.println(F("ERROR: Valor no válido."));
-    }
-}
-
 void setup() {
     Serial.begin(115200);
     randomSeed(analogRead(0));
@@ -362,8 +348,25 @@ void setup() {
 
 void loop() {
     if (!insercionAutomaticaActiva) {
+    String entradaOpcion;
+    int opcion = -1;
+    while (opcion < 1 || opcion > 6) {
         Serial.println(F("\nElige una opción (1-6): "));
-        int opcion = leerEnteroPositivo("");
+        while (Serial.available() == 0) delay(10);
+        entradaOpcion = Serial.readStringUntil('\n');
+        entradaOpcion.trim();
+
+        if (entradaOpcion == "1") opcion = 1;
+        else if (entradaOpcion == "2") opcion = 2;
+        else if (entradaOpcion == "3") opcion = 3;
+        else if (entradaOpcion == "4") opcion = 4;
+        else if (entradaOpcion == "5") opcion = 5;
+        else if (entradaOpcion == "6") opcion = 6;
+        else {
+            Serial.println(F("ERROR: Opción inválida. Elige un número del 1 al 6."));
+            opcion = -1; // asegurar que el bucle continúe
+        }
+    }
 
         if (opcion == 1) {
             float valorReal = leerNumeroReal("Valor a insertar (puede ser decimal o negativo): ");
@@ -384,12 +387,26 @@ void loop() {
                 Serial.println(valorEntero);
             }
 
-            int colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
-            while (colorInt != 1 && colorInt != 2) {
-                Serial.println(F("ERROR: Solo 1 o 2"));
-                colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
-            }
-            arbol.insertar(valorEntero, colorInt == 2 ? NEGRO : ROJO);
+            String entrada;
+            int colorInt;
+            do {
+                Serial.print("Color deseado (1=Rojo, 2=Negro): ");
+                while (Serial.available() == 0) delay(10);
+                entrada = Serial.readStringUntil('\n');
+                entrada.trim();
+                
+                if (entrada == "1") {
+                    colorInt = 1;
+                } else if (entrada == "2") {
+                    colorInt = 2;
+                } else {
+                    colorInt = -1; // valor inválido
+                    Serial.println(F("ERROR: Ingresa solo 1 o 2."));
+                }
+            } while (colorInt != 1 && colorInt != 2);
+
+            Color colorElegido = (colorInt == 1) ? ROJO : NEGRO;
+
             arbol.mostrarInOrden();
 
         } else if (opcion == 2) {
@@ -411,13 +428,25 @@ void loop() {
                 Serial.println(valorEntero);
             }
 
-            int tipoSensor = leerEnteroPositivo("Tipo de sensor (0=Temperatura, 1=Iluminacion): ");
-            while (tipoSensor != 0 && tipoSensor != 1) {
-                Serial.println(F("ERROR: Solo 0 o 1"));
-                tipoSensor = leerEnteroPositivo("Tipo de sensor (0=Temperatura, 1=Iluminacion): ");
-            }
-            bool esIluminacion = (tipoSensor == 1);
-            Serial.println(esIluminacion ? "Tipo: sensorIluminacion (NEGRO)" : "Tipo: sensorTemperatura (ROJO)");
+            String entrada;
+            int tipoSensor;
+            do {
+                Serial.print("Tipo de sensor (1=Temperatura, 2=Iluminacion): ");
+                while (Serial.available() == 0) delay(10);
+                entrada = Serial.readStringUntil('\n');
+                entrada.trim();
+                
+                if (entrada == "1") {
+                    tipoSensor = 1;
+                } else if (entrada == "2") {
+                    tipoSensor = 2;
+                } else {
+                    tipoSensor = -1;
+                    Serial.println(F("ERROR: Ingresa solo 1 o 2."));
+                }
+            } while (tipoSensor != 1 && tipoSensor != 2);
+
+            bool esIluminacion = (tipoSensor == 2);
 
             arbol.insertarDesdeSensor(valorEntero, esIluminacion);
             arbol.mostrarInOrden();
