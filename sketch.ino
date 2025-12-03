@@ -384,12 +384,12 @@ void loop() {
                 Serial.println(valorEntero);
             }
 
-            int colorInt = leerEnteroPositivo("Color deseado (0=Rojo, 1=Negro): ");
-            while (colorInt != 0 && colorInt != 1) {
+            int colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
+            while (colorInt != 1 && colorInt != 2) {
                 Serial.println(F("ERROR: Solo 0 o 1"));
-                colorInt = leerEnteroPositivo("Color deseado (0=Rojo, 1=Negro): ");
+                colorInt = leerEnteroPositivo("Color deseado (1=Rojo, 2=Negro): ");
             }
-            arbol.insertar(valorEntero, colorInt == 1 ? NEGRO : ROJO);
+            arbol.insertar(valorEntero, colorInt == 2 ? NEGRO : ROJO);
             arbol.mostrarInOrden();
 
         } else if (opcion == 2) {
